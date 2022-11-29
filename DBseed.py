@@ -1,4 +1,5 @@
 from DBManager import DBManager
+import bcrypt
 
 class DBseed:
     
@@ -85,42 +86,65 @@ class DBseed:
         
         d.store_an_item(region, table_name, item)
 
-        def createUsersTable(self):
-            region = 'us-east-1'
-            d = DBManager()
-            
-            table_name="users"
-            
-            key_schema=[
-                {
-                    "AttributeName": "id",
-                    "KeyType": "HASH"
-                }
-            ]
-            
-            attribute_definitions=[
-                {
-                    "AttributeName": "id",
-                    "AttributeType": "S"
-                }
-                
-            ]
-            
-            provisioned_throughput={
-                "ReadCapacityUnits": 1,
-                "WriteCapacityUnits": 1
+    def createUsersTable(self):
+        region = 'us-east-1'
+        d = DBManager()
+        
+        table_name="users"
+        
+        key_schema=[
+            {
+                "AttributeName": "id",
+                "KeyType": "HASH"
+            }
+        ]
+        
+        attribute_definitions=[
+            {
+                "AttributeName": "id",
+                "AttributeType": "S"
             }
             
-            d.create_table(table_name, key_schema, attribute_definitions, provisioned_throughput, region)
-            
+        ]
+        
+        provisioned_throughput={
+            "ReadCapacityUnits": 1,
+            "WriteCapacityUnits": 1
+        }
+        
+        d.create_table(table_name, key_schema, attribute_definitions, provisioned_throughput, region)
+    
+    def seedUsersTable(self):
+        region = 'us-east-1'
+        d = DBManager()
+        
+        table_name="users"
+        password = bcrypt.hashpw(b'test123', bcrypt.gensalt())
+        item = {
+            'id': '1',
+            'fullName': 'Erel Ozturk',
+            'email': 'erelozturk98@gmail.com',
+            'mobile': '0831104840',
+            'username': 'erel98',
+            'password': password
+        }
+        
+        d.store_an_item(region, table_name, item)
 
 def main():
     dbseed = DBseed()
     
     # create the products table for the first time
     # dbseed.createProductsTable()
+    
     # populate the products table for the first time
     # dbseed.populateProductsTable()
+    
+    # create the users table for the first time
+    # dbseed.createUsersTable()
+    
+    # populate the users table for the first time
+    dbseed.seedUsersTable()
     
 if __name__ == '__main__':
     main()
