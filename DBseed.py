@@ -94,14 +94,14 @@ class DBseed:
         
         key_schema=[
             {
-                "AttributeName": "id",
+                "AttributeName": "email",
                 "KeyType": "HASH"
             }
         ]
         
         attribute_definitions=[
             {
-                "AttributeName": "id",
+                "AttributeName": "email",
                 "AttributeType": "S"
             }
             
@@ -123,9 +123,9 @@ class DBseed:
         item = {
             'id': '1',
             'fullName': 'Erel Ozturk',
-            'email': 'erelozturk98@gmail.com',
             'mobile': '0831104840',
             'username': 'erel98',
+            'email': 'erelozturk98@gmail.com',
             'password': password
         }
         
