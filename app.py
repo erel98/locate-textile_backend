@@ -63,5 +63,6 @@ def get_product_by_id(id):
     return response
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port='8080')
+    app.debug = True
+    app.run()
     
