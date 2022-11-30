@@ -27,8 +27,12 @@ def login():
     }
     user = db.get_an_item(region, 'users', key_info)
     
-    if user is None or not bcrypt.checkpw(password, bytes(user['password'])):
+    if user is None:
         return jsonify({"msg": "Incorrect login credentials"}), 401
+    else:
+        if not bcrypt.checkpw(password, bytes(user['password'])):
+            return jsonify({"msg": "Incorrect login credentials"}), 401
+        
     access_token = create_access_token(identity=email)
     # save to db
     return jsonify(access_token=access_token)
