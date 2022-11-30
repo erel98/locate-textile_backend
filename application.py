@@ -21,7 +21,7 @@ def login():
     post_data = request.get_json()
     email = post_data.get("email")
     password = post_data.get("password").encode('utf-8')
-    print("requested email: ",email)
+    
     key_info={
         "email": email
     }
@@ -38,6 +38,7 @@ def login():
     return jsonify(access_token=access_token)
 
 @application.route('/products', methods=['GET', 'POST'])
+@jwt_required()
 def get_products():
     response_object = {'status': 'success'}
     if request.method == 'POST':
@@ -58,6 +59,7 @@ def get_products():
 
 
 @application.route('/products/<id>', methods=['GET'])
+@jwt_required()
 def get_product_by_id(id):
     key_info={
         "id": id
@@ -78,6 +80,26 @@ def get_product_by_id(id):
         })
     print(response)
     return response
+
+@application.route("/me", methods=["GET"])
+@jwt_required()
+def protected():
+    # Access the identity of the current user with get_jwt_identity
+    current_user = get_jwt_identity()
+    email = current_user['email']
+    key_info={
+        "email": email
+    }
+    user = db.get_an_item(region, 'users', key_info)
+    response = {
+        'fullname': user['fullName'],
+        'mobile': user['mobile'],
+        'username': user['username'],
+        'email': user['email']
+
+    }
+    return response, 200
+
 
 if __name__ == '__main__':
     application.run()
