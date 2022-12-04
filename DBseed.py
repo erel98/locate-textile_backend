@@ -124,6 +124,8 @@ class DBseed:
             'id': '1',
             'fullName': 'Erel Ozturk',
             'mobile': '0831104840',
+            'latitude': '53.3535671',
+            'longitude': '-6.250112',
             'username': 'erel98',
             'email': 'erelozturk98@gmail.com',
             'password': password
@@ -174,7 +176,7 @@ def main():
     # dbseed.seedUsersTable()
     
     # create the transactions table for the first time
-    dbseed.createTransactionsTable()
+    # dbseed.createTransactionsTable()
     
 if __name__ == '__main__':
     main()

@@ -5,7 +5,8 @@ from DBManager import DBManager
 import boto3
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager
 import bcrypt
-
+import uuid
+from datetime import datetime
 
 application = Flask(__name__)
 CORS(application, resources=r'/*')
@@ -104,8 +105,26 @@ def protected():
 @jwt_required()
 def transaction():
     post_data = request.get_json()
-    print(post_data)
+    user_id = post_data.get('user_id')
+    latitude = post_data.get('coordinates')['latitude']
+    longitude = post_data.get('coordinates')['longitude']
+    cart = post_data.get('cart')
+    
+    
+    for item in cart:
+        tx = {
+            'id': uuid.uuid1(),
+            'created_at': datetime.now(),
+            'product_id': item['product']['id'],
+            'user_id': user_id,
+            'quantity': int(item['count']),
+            'total': int(item['count']) * int(item['product']['price']),
+            'latitude': latitude,
+            'longitude': longitude
+        }
+        db.store_an_item(region, 'transactions', tx)
+    
 
 if __name__ == '__main__':
-    application.run()
+    application.run(host="0.0.0.0", port="8080")
     
