@@ -86,8 +86,7 @@ def get_product_by_id(id):
 @jwt_required()
 def protected():
     # Access the identity of the current user with get_jwt_identity
-    current_user = get_jwt_identity()
-    email = current_user['email']
+    email = get_jwt_identity()
     key_info={
         "email": email
     }
