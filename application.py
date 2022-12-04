@@ -93,11 +93,13 @@ def protected():
     }
     user = db.get_an_item(region, 'users', key_info)
     response = {
+        'id': user['id'],
         'fullname': user['fullName'],
         'mobile': user['mobile'],
+        'latitude': user['latitude'],
+        'longitude': user['longitude'],
         'username': user['username'],
         'email': user['email']
-
     }
     return response, 200
 
@@ -105,6 +107,7 @@ def protected():
 @jwt_required()
 def transaction():
     post_data = request.get_json()
+    print(post_data)
     user_id = post_data.get('user_id')
     latitude = post_data.get('coordinates')['latitude']
     longitude = post_data.get('coordinates')['longitude']
@@ -114,14 +117,14 @@ def transaction():
     
     for item in cart:
         tx = {
-            'id': uuid.uuid1(),
-            'created_at': datetime.now(),
+            'id': str(uuid.uuid1()),
+            'created_at': str(datetime.now()),
             'product_id': item['product']['id'],
             'user_id': user_id,
             'quantity': int(item['count']),
             'total': int(item['count']) * int(item['product']['price']),
-            'latitude': latitude,
-            'longitude': longitude
+            'latitude': str(latitude),
+            'longitude': str(longitude)
         }
         transaction_ids.append(tx['id'])
         db.store_an_item(region, 'transactions', tx)
@@ -130,5 +133,6 @@ def transaction():
     return response, 200
 
 if __name__ == '__main__':
-    application.run(host="0.0.0.0", port="8080")
+    application.run()
+    # application.run(host="0.0.0.0", port="8080")
     
