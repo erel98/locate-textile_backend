@@ -130,7 +130,34 @@ class DBseed:
         }
         
         d.store_an_item(region, table_name, item)
-
+        
+    def createTransactionsTable(self):
+        region = 'us-east-1'
+        d = DBManager()
+        
+        table_name="transactions"
+        
+        key_schema=[
+            {
+                "AttributeName": "id",
+                "KeyType": "HASH"
+            }
+        ]
+        
+        attribute_definitions=[
+            {
+                "AttributeName": "id",
+                "AttributeType": "S"
+            }
+            
+        ]
+        
+        provisioned_throughput={
+            "ReadCapacityUnits": 1,
+            "WriteCapacityUnits": 1
+        }
+        
+        d.create_table(table_name, key_schema, attribute_definitions, provisioned_throughput, region)
 def main():
     dbseed = DBseed()
     
@@ -144,7 +171,10 @@ def main():
     # dbseed.createUsersTable()
     
     # populate the users table for the first time
-    dbseed.seedUsersTable()
+    # dbseed.seedUsersTable()
+    
+    # create the transactions table for the first time
+    dbseed.createTransactionsTable()
     
 if __name__ == '__main__':
     main()

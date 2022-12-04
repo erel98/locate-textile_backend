@@ -100,6 +100,11 @@ def protected():
     }
     return response, 200
 
+@application.route("/transaction", methods=["POST"])
+@jwt_required()
+def transaction():
+    post_data = request.get_json()
+    print(post_data)
 
 if __name__ == '__main__':
     application.run()
