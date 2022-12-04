@@ -110,6 +110,7 @@ def transaction():
     longitude = post_data.get('coordinates')['longitude']
     cart = post_data.get('cart')
     
+    transaction_ids = []
     
     for item in cart:
         tx = {
@@ -122,8 +123,11 @@ def transaction():
             'latitude': latitude,
             'longitude': longitude
         }
+        transaction_ids.append(tx['id'])
         db.store_an_item(region, 'transactions', tx)
-    
+        
+    response = {'transactions': transaction_ids}
+    return response, 200
 
 if __name__ == '__main__':
     application.run(host="0.0.0.0", port="8080")
