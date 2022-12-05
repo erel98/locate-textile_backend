@@ -56,7 +56,8 @@ def get_products():
         db.store_an_item(region, 'products', new_product)
         response_object['message'] = 'Product added!'
     else:
-        response_object['products'] = db.select_all('products', region)
+        products = db.select_all('products', region)
+        return products
     return jsonify(response_object), 200
     
 @application.route('/sort-products', methods=['GET'])
