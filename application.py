@@ -160,8 +160,8 @@ def transaction():
 @jwt_required()
 def updateCoordinate():
     post_data = request.get_json()
-    latitude = post_data.get('latitude')
-    longitude = post_data.get('longitude')
+    latitude = str(post_data.get('latitude'))
+    longitude = str(post_data.get('longitude'))
     
     email = get_jwt_identity()
     key_info = {
@@ -183,6 +183,6 @@ def updateCoordinate():
     
     
 if __name__ == '__main__':
-    #application.run()
-    application.run(host="0.0.0.0", port="8080")
+    application.run()
+    #application.run(host="0.0.0.0", port="8080")
     
