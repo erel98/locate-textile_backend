@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import os
 from DBManager import DBManager
+from TransactionHandler import TransactionHandler
 import boto3
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager
 import bcrypt
@@ -56,8 +57,32 @@ def get_products():
         response_object['message'] = 'Product added!'
     else:
         response_object['products'] = db.select_all('products', region)
-    return jsonify(response_object)
-
+    return jsonify(response_object), 200
+    
+@application.route('/sort-products', methods=['GET'])
+@jwt_required()
+def sort_products():
+    th = TransactionHandler()
+    
+    # get user coords
+    email = get_jwt_identity()
+    key_info={
+        "email": email
+    }
+    user = db.get_an_item(region, 'users', key_info)
+    user_lat = float(user['latitude'])
+    user_lon = float(user['longitude'])
+    
+    # group transactions
+    grouped_tx = th.groupTransactions()
+    
+    # sort the grouped transactions
+    sorted = th.sortGroupedTransactionCoordinates(user_lat, user_lon, grouped_tx)
+    
+    # prepare response object
+    response = th.prepareSortedProductsResponse(sorted)
+    
+    return jsonify(response), 200
 
 @application.route('/products/<id>', methods=['GET'])
 @jwt_required()
@@ -131,7 +156,33 @@ def transaction():
     response = {'transactions': transaction_ids}
     return response, 200
 
+@application.route("/update-coordinate", methods=["POST"])
+@jwt_required()
+def updateCoordinate():
+    post_data = request.get_json()
+    latitude = post_data.get('latitude')
+    longitude = post_data.get('longitude')
+    
+    email = get_jwt_identity()
+    key_info = {
+        'email': email
+    }
+    
+    response = db.update_item(
+       table_name='users',
+       region=region,
+       key=key_info,
+       updateExpression='SET latitude = :lat, longitude = :lon', 
+       expressionAttributes={
+           ':lat': latitude,
+           ':lon': longitude
+        }
+    )
+    
+    return response, 200
+    
+    
 if __name__ == '__main__':
-    application.run()
-    # application.run(host="0.0.0.0", port="8080")
+    #application.run()
+    application.run(host="0.0.0.0", port="8080")
     

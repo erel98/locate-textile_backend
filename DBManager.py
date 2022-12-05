@@ -21,12 +21,8 @@ class DBManager:
             return False
         return True
 
- 
-        
-
     def store_an_item(self, region, table_name, item):
         try:
-            print("\nstoring the item {} in the table {} ...".format(item, table_name))
             dynamodb_resource = boto3.resource("dynamodb", region_name=region)
             table = dynamodb_resource.Table(table_name)
             table.put_item(Item=item)
@@ -35,12 +31,9 @@ class DBManager:
             logging.error(e)
             return False
         return True
-        
-        
      
     def get_an_item(self, region, table_name, key):
         try:
-            print("\nretrieving the item with the key {} from the table {} ...".format(key, table_name))
             dynamodb_resource = boto3.resource("dynamodb", region_name=region)
             table = dynamodb_resource.Table(table_name)
             response = table.get_item(Key=key)
@@ -56,4 +49,17 @@ class DBManager:
         table = dynamodb_resource.Table(table_name)
         response = table.scan()
         return response['Items']
+    
+    
+    def update_item(self, table_name, region, key, updateExpression, expressionAttributes):
+        dynamodb_resource = boto3.resource("dynamodb", region_name=region)
+        table = dynamodb_resource.Table(table_name)
+        
+        response = table.update_item(
+            Key=key,
+            UpdateExpression=updateExpression,
+            ExpressionAttributeValues=expressionAttributes
+        )
+        
+        return response
         
