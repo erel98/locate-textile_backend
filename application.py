@@ -49,7 +49,6 @@ def get_products():
             'id': post_data.get('id'),
             'name': post_data.get('name'),
             'description': post_data.get('description'),
-            'image': post_data.get('image'),
             'price': post_data.get('price'),
         } 
 
