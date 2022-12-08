@@ -15,7 +15,7 @@ db = DBManager()
 region = 'us-east-1'
 
 # Setup the Flask-JWT-Extended extension
-application.config["JWT_SECRET_KEY"] = "Merhaba, benim adım Erel"  # Change this!
+application.config["JWT_SECRET_KEY"] = "Cloud Platform Programming"
 jwt = JWTManager(application)
 
 @application.route("/login", methods=["POST"])
@@ -36,7 +36,7 @@ def login():
             return jsonify({"msg": "Incorrect login credentials"}), 401
         
     access_token = create_access_token(identity=email)
-    # save to db
+    
     return jsonify(access_token=access_token)
 
 @application.route('/products', methods=['GET', 'POST'])

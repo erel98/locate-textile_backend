@@ -39,8 +39,8 @@ class DBseed:
         item = {
             "id": "1",
             "name": "Hoodie",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            'price': 100
+            "description": "A black hoodie that will keep you warm even in the coldest days",
+            'price': 60
         }
         
         d.store_an_item(region, table_name, item)
@@ -48,8 +48,8 @@ class DBseed:
         item = {
             'id': '2',
             'name': 'Sweatshirt',
-            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'price': 235
+            'description': 'A white sweatshirt for sports and hiking',
+            'price': 50
         }
         
         d.store_an_item(region, table_name, item)
@@ -57,17 +57,17 @@ class DBseed:
         item = {
             'id': '3',
             'name': 'Sweater',
-            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'price': 60
+            'description': 'This will be your sweater to countdown to the new year.',
+            'price': 80
         }
         
         d.store_an_item(region, table_name, item)
         
         item = {
             'id': '4',
-            'name': 'Shirt',
-            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'price': 75
+            'name': 'T-shirt',
+            'description': 'A plain but stylish t-shirt for good weathers.',
+            'price': 25
         }
         
         d.store_an_item(region, table_name, item)
@@ -75,8 +75,53 @@ class DBseed:
         item = {
             'id': '5',
             'name': 'Jeans',
-            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'price': 120
+            'description': 'A perfectly comfortable jeans for daily purposes.',
+            'price': 70
+        }
+        
+        d.store_an_item(region, table_name, item)
+        
+        item = {
+            'id': '6',
+            'name': 'Beanie',
+            'description': 'A beanie to keep your head warm in the coldest days of winter.',
+            'price': 20
+        }
+        
+        d.store_an_item(region, table_name, item)
+        
+        item = {
+            'id': '7',
+            'name': 'Scarf',
+            'description': 'This unisex scarf will be the trend of this winter!',
+            'price': 15
+        }
+        
+        d.store_an_item(region, table_name, item)
+        
+        item = {
+            'id': '8',
+            'name': 'Gloves',
+            'description': 'A pair of gloves that you can use your phone with, at a great price.',
+            'price': 10
+        }
+        
+        d.store_an_item(region, table_name, item)
+        
+        item = {
+            'id': '9',
+            'name': 'Raincoat',
+            'description': 'Fully waterproof raincoat, easy to carry with its lightweight.',
+            'price': 100
+        }
+        
+        d.store_an_item(region, table_name, item)
+        
+        item = {
+            'id': '10',
+            'name': 'Umbrella',
+            'description': 'Large size yellow umbrella with stainless steel frames',
+            'price': 35
         }
         
         d.store_an_item(region, table_name, item)
